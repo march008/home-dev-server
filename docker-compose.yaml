@@ -8,8 +8,6 @@ services:
    nginx:
       image: jwilder/nginx-proxy
       container_name: nginx
-      links: 
-         - jenkins
       volumes:
          - ./data/nginx/conf:/etc/nginx/conf.d
          - ./data/nginx/html:/usr/share/nginx/html
@@ -83,12 +81,6 @@ services:
       privileged: true
       environment:
          - DOCKER_TLS_CERTDIR=./certs
-      expose: 
-         - "8080"
-         - "50000"
-      ports: 
-         - "9050:8080"
-         -  "50000:50000"
       volumes:
          - ./data/jenkins/data:/var/jenkins_home
          - ./data/jenkins/certs:/certs/client
@@ -97,7 +89,7 @@ services:
          - homenet
       environment: 
          - VIRTUAL_HOST=jenkins.fenrir-it.eu
-         - VIRTUAL_PORT=9050
+         - VIRTUAL_PORT=8080
          - LETSENCRYPT_HOST=jenkins.fenrir-it.eu
          - LETSENCRYPT_EMAIL=fenrir0823@protonmail.com
       depends_on: 
