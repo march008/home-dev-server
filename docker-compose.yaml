@@ -57,22 +57,22 @@ services:
          - nginx
          - letsencrypt
 
-   reposilite:
-      image: dzikoysk/reposilite
-      container_name: reposilite
-      restart: always
-      volumes:
-         - ./data/reposilite/data:/app/data
-      networks:
-         - homenet
-      environment: 
-         - VIRTUAL_HOST=repo.fenrir-it.eu
-         - VIRTUAL_PORT=9020
-         - LETSENCRYPT_HOST=repo.fenrir-it.eu
-         - LETSENCRYPT_EMAIL=fenrir0823@protonmail.com
-      depends_on: 
-         - nginx
-         - letsencrypt
+   # reposilite:
+   #    image: dzikoysk/reposilite
+   #    container_name: reposilite
+   #    restart: always
+   #    volumes:
+   #       - ./data/reposilite/data:/app/data
+   #    networks:
+   #       - homenet
+   #    environment: 
+   #       - VIRTUAL_HOST=repo.fenrir-it.eu
+   #       - VIRTUAL_PORT=9020
+   #       - LETSENCRYPT_HOST=repo.fenrir-it.eu
+   #       - LETSENCRYPT_EMAIL=fenrir0823@protonmail.com
+   #    depends_on: 
+   #       - nginx
+   #       - letsencrypt
 
    jenkins:
       image: jenkins/jenkins:lts
@@ -102,52 +102,52 @@ services:
          - nginx
          - letsencrypt
 
-   gitlab:
-      container_name: gitlab
-      image: gitlab/gitlab-ce
-      restart: always
-      hostname: 'gitlab.fenrir-it.eu'
-      networks:
-        - homenet
-      expose: 
-         - "80"
-         - "443"
-         - "22"
-      volumes:
-         - ./data/gitlab/config:/etc/gitlab
-         - ./data/gitlab/logs/:/var/log/gitlab
-         - ./data/gitlab/data:/var/opt/gitlab
-      environment: 
-         - VIRTUAL_HOST=gitlab.fenrir-it.eu
-         - VIRTUAL_PORT=9010
-         - LETSENCRYPT_HOST=gitlab.fenrir-it.eu
-         - LETSENCRYPT_EMAIL=fenrir0823@protonmail.com
-      depends_on: 
-         - nginx
-         - letsencrypt
+   # gitlab:
+   #    container_name: gitlab
+   #    image: gitlab/gitlab-ce
+   #    restart: always
+   #    hostname: 'gitlab.fenrir-it.eu'
+   #    networks:
+   #      - homenet
+   #    expose: 
+   #       - "80"
+   #       - "443"
+   #       - "22"
+   #    volumes:
+   #       - ./data/gitlab/config:/etc/gitlab
+   #       - ./data/gitlab/logs/:/var/log/gitlab
+   #       - ./data/gitlab/data:/var/opt/gitlab
+   #    environment: 
+   #       - VIRTUAL_HOST=gitlab.fenrir-it.eu
+   #       - VIRTUAL_PORT=9010
+   #       - LETSENCRYPT_HOST=gitlab.fenrir-it.eu
+   #       - LETSENCRYPT_EMAIL=fenrir0823@protonmail.com
+   #    depends_on: 
+   #       - nginx
+   #       - letsencrypt
 
-   openproject:
-      image: openproject/community:11
-      container_name: openproject
-      restart: always
-      environment:
-         - SECRET_KEY_KASE=c09ozCbBvIUl3XZWvxAOzaEKojudZE43
-         - VIRTUAL_HOST=openproject.fenrir-it.eu
-         - VIRTUAL_PORT=9100
-         - LETSENCRYPT_HOST=openproject.fenrir-it.eu
-         - LETSENCRYPT_EMAIL=fenrir0823@protonmail.com
-      networks:
-        - homenet
-      volumes:
-        - ./data/openproject/pgdata:/var/openproject/pgdata
-        - ./data/openproject/assets:/var/openproject/assets
-      environment: 
-         - VIRTUAL_HOST=openproject.fenrir-it.eu
-         - VIRTUAL_PORT=9100
-         - LETSENCRYPT_HOST=openproject.fenrir-it.eu
-         - LETSENCRYPT_EMAIL=fenrir0823@protonmail.com
-      depends_on: 
-         - nginx
-         - letsencrypt
+   # openproject:
+   #    image: openproject/community:11
+   #    container_name: openproject
+   #    restart: always
+   #    environment:
+   #       - SECRET_KEY_KASE=c09ozCbBvIUl3XZWvxAOzaEKojudZE43
+   #       - VIRTUAL_HOST=openproject.fenrir-it.eu
+   #       - VIRTUAL_PORT=9100
+   #       - LETSENCRYPT_HOST=openproject.fenrir-it.eu
+   #       - LETSENCRYPT_EMAIL=fenrir0823@protonmail.com
+   #    networks:
+   #      - homenet
+   #    volumes:
+   #      - ./data/openproject/pgdata:/var/openproject/pgdata
+   #      - ./data/openproject/assets:/var/openproject/assets
+   #    environment: 
+   #       - VIRTUAL_HOST=openproject.fenrir-it.eu
+   #       - VIRTUAL_PORT=9100
+   #       - LETSENCRYPT_HOST=openproject.fenrir-it.eu
+   #       - LETSENCRYPT_EMAIL=fenrir0823@protonmail.com
+   #    depends_on: 
+   #       - nginx
+   #       - letsencrypt
 
    
