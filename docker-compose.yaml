@@ -1,0 +1,146 @@
+version: "3.7"
+
+networks:
+   homenet:
+      external: true
+
+services:
+   nginx:
+      image: jwilder/nginx-proxy
+      container_name: nginx
+      volumes:
+         - ./data/nginx/conf:/etc/nginx/conf.d
+         - ./data/nginx/html:/usr/share/nginx/html
+         - ./data/nginx/vhost:/etc/nginx/vhost.d
+         - ./data/nginx/dhparam:/etc/nginx/dhparam
+         - ./data/nginx/certs:/etc/nginx/certs:ro
+         - /var/run/docker.sock:/tmp/docker.sock:ro
+      restart: always
+      networks:
+         - homenet
+      ports:
+         - 80:80
+         - 443:443
+         
+   letsencrypt:
+      image: jrcs/letsencrypt-nginx-proxy-companion
+      container_name: letsencrypt
+      restart: always
+      volumes_from:
+         - nginx
+      volumes:
+         - ./data/nginx/certs:/etc/nginx/certs:rw
+         - /run/docker.sock:/var/run/docker.sock:ro
+      environment:
+         - NGINX_PROXY_CONTAINER=nginx
+         - DEFAULT_EMAIL=fenrir0823@protonmail.com
+      networks:
+         - homenet
+      depends_on:
+         - nginx
+
+   portainer:
+      container_name: portainer
+      image: portainer/portainer-ce
+      restart: always
+      networks:
+         - homenet
+      volumes:
+         - ./data/portainer/data:/data
+         - /var/run/docker.sock:/var/run/docker.sock
+      environment:
+         - VIRTUAL_HOST=portainer.fenrir-it.eu
+         - VIRTUAL_PORT=9000
+         - LETSENCRYPT_HOST=portainer.fenrir-it.eu
+         - LETSENCRYPT_EMAIL=fenrir0823@protonmail.com
+      depends_on:
+         - nginx
+         - letsencrypt
+
+   reposilite:
+      image: dzikoysk/reposilite
+      container_name: reposilite
+      restart: always
+      volumes:
+         - ./data/reposilite/data:/app/data
+      networks:
+         - homenet
+      environment: 
+         - VIRTUAL_HOST=repo.fenrir-it.eu
+         - VIRTUAL_PORT=9020
+         - LETSENCRYPT_HOST=repo.fenrir-it.eu
+         - LETSENCRYPT_EMAIL=fenrir0823@protonmail.com
+      depends_on: 
+         - nginx
+         - letsencrypt
+
+   jenkins:
+      image: jenkins/jenkins:lts
+      container_name: jenkins
+      restart: always
+      privileged: true
+      environment:
+         - DOCKER_TLS_CERTDIR=./certs
+      volumes:
+         - ./data/jenkins/data:/var/jenkins_home
+         - /var/run/docker.sock:/var/run/docker.sock
+      networks:
+         - homenet
+      environment: 
+         - VIRTUAL_HOST=jenkins.fenrir-it.eu
+         - VIRTUAL_PORT=9050
+         - LETSENCRYPT_HOST=jenkins.fenrir-it.eu
+         - LETSENCRYPT_EMAIL=fenrir0823@protonmail.com
+      depends_on: 
+         - nginx
+         - letsencrypt
+
+   gitlab:
+      container_name: gitlab
+      image: gitlab/gitlab-ce
+      restart: always
+      hostname: 'gitlab.fenrir-it.eu'
+      networks:
+        - homenet
+      # ports:
+      #    - '9010:80'
+      #    - '443:443'
+      #    - '23:22'
+      volumes:
+         - ./data/gitlab/config:/etc/gitlab
+         - ./data/gitlab/logs/:/var/log/gitlab
+         - ./data/gitlab/data:/var/opt/gitlab
+      environment: 
+         - VIRTUAL_HOST=gitlab.fenrir-it.eu
+         - VIRTUAL_PORT=9010
+         - LETSENCRYPT_HOST=gitlab.fenrir-it.eu
+         - LETSENCRYPT_EMAIL=fenrir0823@protonmail.com
+      depends_on: 
+         - nginx
+         - letsencrypt
+
+   openproject:
+      image: openproject/community:11
+      container_name: openproject
+      restart: always
+      environment:
+         - SECRET_KEY_KASE=c09ozCbBvIUl3XZWvxAOzaEKojudZE43
+         - VIRTUAL_HOST=openproject.fenrir-it.eu
+         - VIRTUAL_PORT=9100
+         - LETSENCRYPT_HOST=openproject.fenrir-it.eu
+         - LETSENCRYPT_EMAIL=fenrir0823@protonmail.com
+      networks:
+        - homenet
+      volumes:
+        - ./data/openproject/pgdata:/var/openproject/pgdata
+        - ./data/openproject/assets:/var/openproject/assets
+      environment: 
+         - VIRTUAL_HOST=openproject.fenrir-it.eu
+         - VIRTUAL_PORT=9100
+         - LETSENCRYPT_HOST=openproject.fenrir-it.eu
+         - LETSENCRYPT_EMAIL=fenrir0823@protonmail.com
+      depends_on: 
+         - nginx
+         - letsencrypt
+
+   
