@@ -75,15 +75,15 @@ services:
          - letsencrypt
 
    jenkins:
-      # image: jenkins/jenkins:lts
-      image: docker:dind
+      image: jenkins/jenkins:lts
       container_name: jenkins
       restart: always
       privileged: true
       environment:
          - DOCKER_TLS_CERTDIR=./certs
       expose: 
-         - "2376"
+         - "8080"
+         - "50000"
       volumes:
          - ./data/jenkins/data:/var/jenkins_home
          - ./data/jenkins/certs:/certs/client
@@ -106,10 +106,10 @@ services:
       hostname: 'gitlab.fenrir-it.eu'
       networks:
         - homenet
-      # ports:
-      #    - '9010:80'
-      #    - '443:443'
-      #    - '23:22'
+      expose: 
+         - "80"
+         - "443"
+         - "22"
       volumes:
          - ./data/gitlab/config:/etc/gitlab
          - ./data/gitlab/logs/:/var/log/gitlab
