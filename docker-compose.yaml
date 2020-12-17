@@ -57,22 +57,22 @@ services:
          - nginx
          - letsencrypt
 
-   # reposilite:
-   #    image: dzikoysk/reposilite
-   #    container_name: reposilite
-   #    restart: always
-   #    volumes:
-   #       - ./data/reposilite/data:/app/data
-   #    networks:
-   #       - homenet
-   #    environment: 
-   #       - VIRTUAL_HOST=repo.fenrir-it.eu
-   #       - VIRTUAL_PORT=9020
-   #       - LETSENCRYPT_HOST=repo.fenrir-it.eu
-   #       - LETSENCRYPT_EMAIL=fenrir0823@protonmail.com
-   #    depends_on: 
-   #       - nginx
-   #       - letsencrypt
+   reposilite:
+      image: dzikoysk/reposilite
+      container_name: reposilite
+      restart: always
+      volumes:
+         - ./data/reposilite/data:/app/data
+      networks:
+         - homenet
+      environment: 
+         - VIRTUAL_HOST=repo.fenrir-it.eu
+         - VIRTUAL_PORT=80
+         - LETSENCRYPT_HOST=repo.fenrir-it.eu
+         - LETSENCRYPT_EMAIL=fenrir0823@protonmail.com
+      depends_on: 
+         - nginx
+         - letsencrypt
 
    jenkins:
       image: jenkins/jenkins:lts
