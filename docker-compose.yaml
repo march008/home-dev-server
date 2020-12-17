@@ -84,6 +84,9 @@ services:
       expose: 
          - "8080"
          - "50000"
+      ports: 
+         - "9050:8080"
+         -  "50000:50000"
       volumes:
          - ./data/jenkins/data:/var/jenkins_home
          - ./data/jenkins/certs:/certs/client
