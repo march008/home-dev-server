@@ -81,6 +81,8 @@ services:
       privileged: true
       environment:
          - DOCKER_TLS_CERTDIR=./certs
+      expose: 
+         - "2376"
       volumes:
          - ./data/jenkins/data:/var/jenkins_home
          - ./data/jenkins/certs:/certs/client
