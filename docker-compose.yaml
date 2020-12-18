@@ -6,20 +6,20 @@ networks:
 
 services:
    nginx-manager:
-      image: 'jc21/nginx-proxy-manager:latest'
+      image: jc21/nginx-proxy-manager:latest
       container_name: nginx-manager
       ports:
-         - '80:80'
-         - '81:81'
-         - '443:443'
+         - 80:80
+         - 81:81
+         - 443:443
       environment:
-         - DB_MYSQL_PORT: 3306
-         - DB_MYSQL_USER: "nginx"
-         - DB_MYSQL_PASSWORD: "nginxPass00"
-         - DB_MYSQL_HOST: "mysql-nginx"
-         - DB_MYSQL_NAME: "nginx"
-         - DISABLE_IPV6: 'true'
-         - X_FRAME_OPTIONS: "sameorigin"
+         DB_MYSQL_PORT: 3306
+         DB_MYSQL_USER: nginx
+         DB_MYSQL_PASSWORD: nginxPass00
+         DB_MYSQL_HOST: mysql-nginx
+         DB_MYSQL_NAME: nginx
+         DISABLE_IPV6: true
+         X_FRAME_OPTIONS: sameorigin
       volumes:
          - ./data/nginxmanager/data:/data
          - ./data/nginxmanager/letsencrypt:/etc/letsencrypt
@@ -29,15 +29,15 @@ services:
          - mysql-nginx
          
    mysql-nginx:
-      image: 'jc21/mariadb-aria:10.4'
+      image: jc21/mariadb-aria:10.4
       container_name: mysql-nginx
       expose: 
          - 3306
       environment:
-         - MYSQL_ROOT_PASSWORD: 'mysqlPass00'
-         - MYSQL_DATABASE: 'mysql-nginx'
-         - MYSQL_USER: 'nginx'
-         - MYSQL_PASSWORD: 'nginxPass00'
+         MYSQL_ROOT_PASSWORD: mysqlPass00
+         MYSQL_DATABASE: mysql-nginx
+         MYSQL_USER: nginx
+         MYSQL_PASSWORD: nginxPass00
       volumes:
          - ./data/nginxmanager/db:/var/lib/mysql
       networks: 
@@ -76,7 +76,7 @@ services:
          - 8080
          - 50000
       environment:
-         - DOCKER_TLS_CERTDIR=./certs
+         DOCKER_TLS_CERTDIR: ./certs
       volumes:
          - ./data/jenkins/data:/var/jenkins_home
          - ./data/jenkins/certs:/certs/client
@@ -88,7 +88,7 @@ services:
       container_name: gitlab
       image: gitlab/gitlab-ce
       restart: always
-      hostname: 'gitlab.fenrir-it.eu'
+      hostname: gitlab.fenrir-it.eu
       networks:
         - homenet
       expose: 
@@ -105,7 +105,7 @@ services:
       container_name: openproject
       restart: always
       environment:
-         - SECRET_KEY_KASE=iuxIVeGkSZN+uTFoJYD6GVttU/cxUx/I3imiovGJuO8=
+         SECRET_KEY_KASE: iuxIVeGkSZN+uTFoJYD6GVttU/cxUx/I3imiovGJuO8=
       networks:
          - homenet
       volumes:
