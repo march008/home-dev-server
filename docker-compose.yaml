@@ -18,7 +18,7 @@ services:
          DB_MYSQL_PASSWORD: nginxPass00
          DB_MYSQL_HOST: mysql-nginx
          DB_MYSQL_NAME: nginx
-         DISABLE_IPV6: true
+         DISABLE_IPV6: 'true'
          X_FRAME_OPTIONS: sameorigin
       volumes:
          - ./data/nginxmanager/data:/data
