@@ -106,8 +106,6 @@ services:
       container_name: redmine
       restart: always
       image: redmine
-      expose: 
-
       environment:
          REDMINE_DB_POSTGRES: redmine-db
          REDMINE_DB_PORT: 5432
@@ -118,6 +116,8 @@ services:
          - 3000
       volumes:
          - ./data/redmine/data:/usr/src/redmine/files
+      networks: 
+         - homenet
       depends_on:
          - redmine-db
 
