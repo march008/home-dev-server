@@ -116,6 +116,7 @@ services:
          - 3000
       volumes:
          - ./data/redmine/data:/usr/src/redmine/files
+         - ./data/redmine/themes:/usr/src/redmine/public/themes
       networks: 
          - homenet
       depends_on:
