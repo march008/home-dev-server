@@ -121,19 +121,19 @@ services:
          depends_on:
             - redmine-db
 
-     redmine-db:
-         image: postgres:13.1
-         container_name: redmine-db
-         restart: always
-         expose: 
-            - 5432
-         environment:
-            POSTGRES_PASSWORD: dbRedminePass00
-            POSTGRES_DB: redmine
-            POSTGRES_USER: redmine
-         networks:  
-            - homenet
-         volumes:
-            - ./data/redmine/db:/var/lib/postgresql/data
+   redmine-db:
+      image: postgres:13.1
+      container_name: redmine-db
+      restart: always
+      expose: 
+         - 5432
+      environment:
+         POSTGRES_PASSWORD: dbRedminePass00
+         POSTGRES_DB: redmine
+         POSTGRES_USER: redmine
+      networks:  
+         - homenet
+      volumes:
+         - ./data/redmine/db:/var/lib/postgresql/data
             
    
