@@ -102,18 +102,38 @@ services:
          - ./data/gitlab/logs/:/var/log/gitlab
          - ./data/gitlab/data:/var/opt/gitlab
 
-   openproject:
-      image: openproject/community:11
-      container_name: openproject
-      restart: always
-      environment:
-         SECRET_KEY_KASE: iuxIVeGkSZN+uTFoJYD6GVttU/cxUx/I3imiovGJuO8=
-      networks:
-         - homenet
-      volumes:
-         - ./data/openproject/pgdata:/var/openproject/pgdata
-         - ./data/openproject/assets:/var/openproject/assets
-      expose: 
-         - 80
+      redmine:
+         container_name: redmine
+         restart: always
+         image: redmine
+         expose: 
 
+         environment:
+            REDMINE_DB_POSTGRES: redmine-db
+            REDMINE_DB_PORT: 5432
+            REDMINE_DB_USERNAME: redmine
+            REDMINE_DB_PASSWORD: dbRedminePass00
+            REDMINE_DB_DATABASE: redmine
+         expose: 
+            - 3000
+         volumes:
+            - ./data/redmine/data:/usr/src/redmine/files
+         depends_on:
+            - redmine-db
+
+     redmine-db:
+         image: postgres:13.1
+         container_name: redmine-db
+         restart: always
+         expose: 
+            - 5432
+         environment:
+            POSTGRES_PASSWORD: dbRedminePass00
+            POSTGRES_DB: redmine
+            POSTGRES_USER: redmine
+         networks:  
+            - homenet
+         volumes:
+            - ./data/redmine/db:/var/lib/postgresql/data
+            
    
