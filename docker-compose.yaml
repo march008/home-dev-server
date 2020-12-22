@@ -86,21 +86,21 @@ services:
       networks:
          - homenet
 
-   gitlab:
-      container_name: gitlab
-      image: gitlab/gitlab-ce
-      restart: always
-      hostname: gitlab.fenrir-it.eu
-      networks:
-        - homenet
-      expose: 
-         - 80
-         - 443
-         - 22
-      volumes:
-         - ./data/gitlab/config:/etc/gitlab
-         - ./data/gitlab/logs/:/var/log/gitlab
-         - ./data/gitlab/data:/var/opt/gitlab
+   # gitlab:
+   #    container_name: gitlab
+   #    image: gitlab/gitlab-ce
+   #    restart: always
+   #    hostname: git.fenrir-it.eu
+   #    networks:
+   #      - homenet
+   #    expose: 
+   #       - 80
+   #       - 443
+   #       - 22
+   #    volumes:
+   #       - ./data/gitlab/config:/etc/gitlab
+   #       - ./data/gitlab/logs/:/var/log/gitlab
+   #       - ./data/gitlab/data:/var/opt/gitlab
 
    redmine:
       container_name: redmine
@@ -138,4 +138,32 @@ services:
       volumes:
          - ./data/redmine/db:/var/lib/postgresql/data
             
+   gitea:
+      image: gitea/gitea:latest
+      container_name: gitea
+      restart: always
+      networks: 
+         - homenet
+      expose: 
+         - 3000
+         - 22
+      volumes:
+         - ./data/gitea/data:/data
+      depends_on:
+         - gitea-db
+
+   gitea-db:
+      image: mariadb:10
+      container_name: gitea-db
+      restart: always
+      environment:
+         - MYSQL_ROOT_PASSWORD=thee7nohrahn6eeF
+         - MYSQL_DATABASE=gitea
+         - MYSQL_USER=gitea
+         - MYSQL_PASSWORD=thee7nohrahn6eeF
+      volumes:
+         - ./data/gitea/db/:/var/lib/mysql
+      networks: 
+         - homenet
+   
    
