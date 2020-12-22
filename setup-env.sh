@@ -12,6 +12,7 @@ mkdir -p ./data/db/{mysql,postgre}
 mkdir -p ./data/youtrack{data,confs,backups,logs}
 
 chmod +777 ./data/jenkins/data
+chown -R 13001:13001 ./data/youtrack
 
 docker network create homenet
 
