@@ -167,7 +167,7 @@ services:
          - homenet
 
    youtrack:
-      image: jetbrains/youtrack
+      image: jetbrains/youtrack:2020.6.1767
       container_name: youtrack
       restart: always
       expose: 
