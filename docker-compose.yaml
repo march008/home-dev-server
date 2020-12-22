@@ -104,6 +104,8 @@ services:
       image: mariadb:10
       container_name: gitea-db
       restart: always
+      expose: 
+         - 3306
       environment:
          - MYSQL_ROOT_PASSWORD=thee7nohrahn6eeF
          - MYSQL_DATABASE=gitea
@@ -124,7 +126,7 @@ services:
          - homenet
       volumes: 
          - ./data/youtrack/data:/opt/youtrack/data
-         - ./data/youtrack/confs:/opt/youtrack/conf
+         - ./data/youtrack/confs:/opt/youtrack/conf:rw
          - ./data/youtrack/logs:/opt/youtrack/logs
          - ./data/youtrack/backups:/opt/youtrack/backups
         
