@@ -30,7 +30,7 @@ services:
          - mysql-nginx
          
    mysql-nginx:
-      image: jc21/mariadb-aria:10.4
+      image: mariadb:latest
       container_name: mysql-nginx
       restart: always
       expose: 
