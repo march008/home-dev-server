@@ -17,7 +17,7 @@ services:
          DB_MYSQL_PORT: 3306
          DB_MYSQL_USER: nginx
          DB_MYSQL_PASSWORD: nginxPass00
-         DB_MYSQL_HOST: mysql-nginx
+         DB_MYSQL_HOST: nginx-db
          DB_MYSQL_NAME: nginx
          DISABLE_IPV6: 'true'
          X_FRAME_OPTIONS: sameorigin
@@ -27,17 +27,17 @@ services:
       networks: 
          - homenet
       depends_on: 
-         - mysql-nginx
+         - nginx-db
          
-   mysql-nginx:
+   nginx-db:
       image: mariadb:latest
-      container_name: mysql-nginx
+      container_name: nginx-db
       restart: always
       expose: 
          - 3306
       environment:
-         MYSQL_ROOT_PASSWORD: mysqlPass00
-         MYSQL_DATABASE: mysql-nginx
+         MYSQL_ROOT_PASSWORD: mariaPass00
+         MYSQL_DATABASE: nginx
          MYSQL_USER: nginx
          MYSQL_PASSWORD: nginxPass00
       volumes:

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mkdir -p ./data/nginx-manager/{letsencrypt,data,db}
+mkdir -p ./data/nginxmanager/{letsencrypt,data,db}
 mkdir -p ./data/portainer/data
 mkdir -p ./data/jenkins/data
 mkdir -p ./data/reposilite/data
