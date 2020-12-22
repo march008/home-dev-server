@@ -167,7 +167,7 @@ services:
          - homenet
 
    youtrack:
-      image: jetbrains/youtrack:latest
+      image: jetbrains/youtrack
       container_name: youtrack
       restart: always
       expose: 
