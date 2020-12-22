@@ -85,58 +85,6 @@ services:
          - /var/run/docker.sock:/var/run/docker.sock
       networks:
          - homenet
-
-   # gitlab:
-   #    container_name: gitlab
-   #    image: gitlab/gitlab-ce
-   #    restart: always
-   #    hostname: git.fenrir-it.eu
-   #    networks:
-   #      - homenet
-   #    expose: 
-   #       - 80
-   #       - 443
-   #       - 22
-   #    volumes:
-   #       - ./data/gitlab/config:/etc/gitlab
-   #       - ./data/gitlab/logs/:/var/log/gitlab
-   #       - ./data/gitlab/data:/var/opt/gitlab
-
-   redmine:
-      container_name: redmine
-      restart: always
-      image: redmine
-      environment:
-         REDMINE_DB_POSTGRES: redmine-db
-         REDMINE_DB_PORT: 5432
-         REDMINE_DB_USERNAME: redmine
-         REDMINE_DB_PASSWORD: dbRedminePass00
-         REDMINE_DB_DATABASE: redmine
-      expose: 
-         - 3000
-      volumes:
-         - ./data/redmine/data:/usr/src/redmine/files
-         - ./data/redmine/themes:/usr/src/redmine/public/themes
-         - ./data/redmine/plugins:/usr/src/redmine/plugins
-      networks: 
-         - homenet
-      depends_on:
-         - redmine-db
-
-   redmine-db:
-      image: postgres:13.1
-      container_name: redmine-db
-      restart: always
-      expose: 
-         - 5432
-      environment:
-         POSTGRES_PASSWORD: dbRedminePass00
-         POSTGRES_DB: redmine
-         POSTGRES_USER: redmine
-      networks:  
-         - homenet
-      volumes:
-         - ./data/redmine/db:/var/lib/postgresql/data
             
    gitea:
       image: gitea/gitea:latest
@@ -181,3 +129,54 @@ services:
          - ./data/youtrack/backups:/opt/youtrack/backups
         
    
+   # gitlab:
+   #    container_name: gitlab
+   #    image: gitlab/gitlab-ce
+   #    restart: always
+   #    hostname: git.fenrir-it.eu
+   #    networks:
+   #      - homenet
+   #    expose: 
+   #       - 80
+   #       - 443
+   #       - 22
+   #    volumes:
+   #       - ./data/gitlab/config:/etc/gitlab
+   #       - ./data/gitlab/logs/:/var/log/gitlab
+   #       - ./data/gitlab/data:/var/opt/gitlab
+
+   # redmine:
+   #    container_name: redmine
+   #    restart: always
+   #    image: redmine
+   #    environment:
+   #       REDMINE_DB_POSTGRES: redmine-db
+   #       REDMINE_DB_PORT: 5432
+   #       REDMINE_DB_USERNAME: redmine
+   #       REDMINE_DB_PASSWORD: dbRedminePass00
+   #       REDMINE_DB_DATABASE: redmine
+   #    expose: 
+   #       - 3000
+   #    volumes:
+   #       - ./data/redmine/data:/usr/src/redmine/files
+   #       - ./data/redmine/themes:/usr/src/redmine/public/themes
+   #       - ./data/redmine/plugins:/usr/src/redmine/plugins
+   #    networks: 
+   #       - homenet
+   #    depends_on:
+   #       - redmine-db
+
+   # redmine-db:
+   #    image: postgres:13.1
+   #    container_name: redmine-db
+   #    restart: always
+   #    expose: 
+   #       - 5432
+   #    environment:
+   #       POSTGRES_PASSWORD: dbRedminePass00
+   #       POSTGRES_DB: redmine
+   #       POSTGRES_USER: redmine
+   #    networks:  
+   #       - homenet
+   #    volumes:
+   #       - ./data/redmine/db:/var/lib/postgresql/data
